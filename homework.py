@@ -148,9 +148,9 @@ class Swimming(Training):
         )
 
 
-CODES_CLASSES: typing.Dict[str, type[Training]] = {'SWM': Swimming,
-                                                   'RUN': Running,
-                                                   'WLK': SportsWalking}
+CODES_CLASSES: typing.Dict[str, typing.Type[Training]] = {'SWM': Swimming,
+                                                          'RUN': Running,
+                                                          'WLK': SportsWalking}
 
 
 def read_package(workout_type: str, data: typing.List[int]) -> Training:
