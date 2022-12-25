@@ -1,5 +1,5 @@
+import typing
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -148,12 +148,12 @@ class Swimming(Training):
         )
 
 
-CODES_CLASSES: dict[str, type[Training]] = {'SWM': Swimming,
-                                            'RUN': Running,
-                                            'WLK': SportsWalking}
+CODES_CLASSES: typing.Dict[str, type[Training]] = {'SWM': Swimming,
+                                                   'RUN': Running,
+                                                   'WLK': SportsWalking}
 
 
-def read_package(workout_type: str, data: List[int]) -> Training:
+def read_package(workout_type: str, data: typing.List[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in CODES_CLASSES:
         raise KeyError('Такого типа тренировки в программном модуле'
