@@ -1,5 +1,5 @@
 import typing
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 
 
 @dataclass
@@ -10,14 +10,13 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-    sample = ('Тип тренировки: {a}; Длительность: {b:.3f} ч.; '
-              'Дистанция: {c:.3f} км; Ср. скорость: {d:.3f} км/ч; '
-              'Потрачено ккал: {e:.3f}.')
+    SAMPLE = ('Тип тренировки: {training_type}; '
+              'Длительность: {duration:.3f} ч.; '
+              'Дистанция: {distance:.3f} км; Ср. скорость: {speed:.3f} км/ч; '
+              'Потрачено ккал: {calories:.3f}.')
 
     def get_message(self) -> str:
-        return self.sample.format(a=self.training_type, b=self.duration,
-                                  c=self.distance, d=self.speed,
-                                  e=self.calories)
+        return self.SAMPLE.format(**asdict(self))
 
 
 class Training:
@@ -50,7 +49,7 @@ class Training:
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
         return InfoMessage(
-            self.__class__.__name__,
+            type(self).__name__,
             self.duration,
             self.get_distance(),
             self.get_mean_speed(),
@@ -156,8 +155,8 @@ CODES_CLASSES: typing.Dict[str, typing.Type[Training]] = {'SWM': Swimming,
 def read_package(workout_type: str, data: typing.List[int]) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in CODES_CLASSES:
-        raise KeyError('Такого типа тренировки в программном модуле'
-                       'не существует!')
+        raise KeyError('Ошибка в списке packages:'
+                       'такого кода тренировки не существует)')
     return CODES_CLASSES[workout_type](*data)
 
 
